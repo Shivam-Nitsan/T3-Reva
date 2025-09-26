@@ -7,7 +7,6 @@ interface MasonryLayoutPageProps {
 }
 
 const MasonryLayoutPage: React.FC<MasonryLayoutPageProps> = ({ data }) => {
-  if (!data) return <p>No data available</p>;
 
   const colPos1 = data.content?.colPos1 || data.page?.content?.colPos1 || [];
   const colPos0 = data.content?.colPos0 || data.page?.content?.colPos0 || [];

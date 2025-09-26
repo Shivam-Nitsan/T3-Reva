@@ -1,6 +1,6 @@
 import React from "react";
 import parse from "html-react-parser";
-import "../style/contactus.css"
+import "../style/contactus.css";
 
 interface ContactUsPageProps {
   data: any;
@@ -52,70 +52,70 @@ const renderForm = (el: any) => {
   const submitLabel =
     el.content?.form_additional?.renderingOptions?.submitButtonLabel || "Submit";
 
-const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
-  const formEl = e.currentTarget;
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formEl = e.currentTarget;
 
-  const inputs = formEl.querySelectorAll<
-    HTMLInputElement | HTMLTextAreaElement
-  >("input, textarea");
+    const inputs = formEl.querySelectorAll<
+      HTMLInputElement | HTMLTextAreaElement
+    >("input, textarea");
 
-  formEl.querySelectorAll(".error-message").forEach((el) => el.remove());
-  formEl.querySelectorAll(".error").forEach((el) => el.classList.remove("error"));
+    formEl.querySelectorAll(".error-message").forEach((el) => el.remove());
+    formEl.querySelectorAll(".error").forEach((el) => el.classList.remove("error"));
 
-  let valid = true;
+    let valid = true;
 
-inputs.forEach((input) => {
-  if (input.type === "hidden") return;
+    inputs.forEach((input) => {
+      if (input.type === "hidden" || input.type === "honeypot") return; // block honeypot
 
-  if (input instanceof HTMLInputElement && input.type === "checkbox") {
-    if (!input.checked) {
-      const error = document.createElement("p");
-      error.className = "error-message";
-      error.innerText = "You must agree before submitting.";
-      input.parentElement?.insertAdjacentElement("afterend", error);
-      input.classList.add("error");
-      valid = false;
+      if (input instanceof HTMLInputElement && input.type === "checkbox") {
+        if (!input.checked) {
+          const error = document.createElement("p");
+          error.className = "error-message";
+          error.innerText = "You must agree before submitting.";
+          input.parentElement?.insertAdjacentElement("afterend", error);
+          input.classList.add("error");
+          valid = false;
+        }
+        return;
+      }
+
+      if (!input.value.trim()) {
+        const error = document.createElement("p");
+        error.className = "error-message";
+        error.innerText = "This field is required.";
+        input.insertAdjacentElement("afterend", error);
+        input.classList.add("error");
+        valid = false;
+        return;
+      }
+
+      if (
+        input instanceof HTMLInputElement &&
+        input.type === "email" &&
+        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value)
+      ) {
+        const error = document.createElement("p");
+        error.className = "error-message";
+        error.innerText = "Please enter a valid email.";
+        input.insertAdjacentElement("afterend", error);
+        input.classList.add("error");
+        valid = false;
+      }
+    });
+
+    if (valid) {
+      alert("Form submitted successfully!");
+      formEl.reset();
     }
-    return;
-  }
+  };
 
-  if (!input.value.trim()) {
-    const error = document.createElement("p");
-    error.className = "error-message";
-    error.innerText = "This field is required.";
-    input.insertAdjacentElement("afterend", error);
-    input.classList.add("error");
-    valid = false;
-    return;
-  }
-
-  if (
-    input instanceof HTMLInputElement &&
-    input.type === "email" &&
-    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value)
-  ) {
-    const error = document.createElement("p");
-    error.className = "error-message";
-    error.innerText = "Please enter a valid email.";
-    input.insertAdjacentElement("afterend", error);
-    input.classList.add("error");
-    valid = false;
-  }
-});
-
-
-  if (valid) {
-    alert("Form submitted successfully!");
-    formEl.reset();
-  }
-};
-
-
-
-  const fields = [...(form?.elements || [])].sort((a, b) =>
-    a.type === "checkbox" ? -1 : b.type === "checkbox" ? 1 : 0
-  );
+  // filter out honeypot fields
+  const fields = [...(form?.elements || [])]
+    .filter((f) => f.type?.toLowerCase() !== "honeypot")
+    .sort((a, b) =>
+      a.type === "checkbox" ? -1 : b.type === "checkbox" ? 1 : 0
+    );
 
   return (
     <div key={el.id} className="contact-form-wrapper">

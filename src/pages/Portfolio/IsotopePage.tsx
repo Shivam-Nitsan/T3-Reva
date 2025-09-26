@@ -6,12 +6,10 @@ interface IsotopeLayoutPageProps {
 }
 
 const IsotopeLayoutPage: React.FC<IsotopeLayoutPageProps> = ({ data }) => {
-  if (!data) return <p>No data available</p>;
 
   const colPos0 = data.content?.colPos0 || data.page?.content?.colPos0 || [];
   const colPos1 = data.content?.colPos1 || data.page?.content?.colPos1 || [];
 
-  // Flatten entries from colPos0
   const allEntries = colPos0.flatMap((block: any) =>
     block.content?.items?.flatMap((item: any) =>
       item.contentElements?.flatMap(
@@ -20,7 +18,6 @@ const IsotopeLayoutPage: React.FC<IsotopeLayoutPageProps> = ({ data }) => {
     )
   );
 
-  // Collect unique categories
   const allCategories: { id: number; slug: string; title: string }[] = [];
   allEntries.forEach((entry: any) => {
     entry.categories?.listCategories?.forEach((cat: any) => {
@@ -32,7 +29,6 @@ const IsotopeLayoutPage: React.FC<IsotopeLayoutPageProps> = ({ data }) => {
 
   const [activeCategory, setActiveCategory] = useState<string>("all");
 
-  // Intro text from colPos1
   const renderBodyText = () =>
     colPos1.flatMap((block: any) =>
       block.content?.items?.flatMap((item: any) =>
@@ -47,7 +43,6 @@ const IsotopeLayoutPage: React.FC<IsotopeLayoutPageProps> = ({ data }) => {
       )
     );
 
-  // Filtered entries
   const filteredEntries = allEntries.filter((entry: any) => {
     if (activeCategory === "all") return true;
     return entry.categories?.listCategories?.some(

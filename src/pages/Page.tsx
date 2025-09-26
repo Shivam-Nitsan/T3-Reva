@@ -8,6 +8,7 @@ import ContactUsPage from "./ContactUsPage";
 import MasonryLayoutPage from "./Portfolio/MasonryLayoutPage";
 import PortfolioGrid from "./Portfolio/PortfolioGridPage";
 import IsotopeLayoutPage from "./Portfolio/IsotopePage";
+import CarouselPage from "./Portfolio/Carousel";
 
 interface ApiResponse {
   page?: {
@@ -73,7 +74,10 @@ const Page: React.FC<{ slug: string }> = ({ slug }) => {
 ) : slug === "/contact-us" ? (
   <ContactUsPage data={data} />
 ) : slug === "/portfolio/isotope-view" ? (
-  <IsotopeLayoutPage data={data} /> ):(
+  <IsotopeLayoutPage data={data} /> 
+) : slug === "/portfolio/masonry-minimal" ? (
+  <CarouselPage data={data} /> 
+):(
   <main style={{ textAlign: "center" }}>404: Page not found</main>
 )}
 

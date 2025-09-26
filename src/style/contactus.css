@@ -74,7 +74,7 @@
   border: 1px solid #ddd;
   border-radius: 3px;
   font-size: 0.95rem;
-  margin-bottom: 12px;
+  /* margin-bottom: 12px; */
 }
 
 .newsletter-form input[type="email"]:focus {
@@ -191,7 +191,7 @@
 .contact-form input[type="email"],
 .contact-form input[type="textarea"],
 .contact-form textarea {
-  width: 100%;
+  width: 95%;
   padding: 12px 15px;
   margin-bottom: 15px;
   border: 1px solid #ccc;
