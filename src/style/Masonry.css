@@ -1,0 +1,143 @@
+/* ===============================
+   Masonry Portfolio Layout (with react-masonry-css)
+================================= */
+
+.masonry-layout-page {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  background: #fff;
+}
+
+.masonry-layout-page .intro {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 100px 80px;
+  background-color: #f4f4f4;
+}
+
+.masonry-layout-page .intro h1,
+.masonry-layout-page .intro h2 {
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  font-weight: 700;
+  color: var(--secondary_color);
+}
+
+.masonry-layout-page .intro p {
+  max-width: 700px;
+  margin: 0 auto;
+  font-size: 1rem;
+  color: var(--text_color);
+}
+
+.portfolio-filter {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.portfolio-filter ul {
+  list-style: none;
+  padding: 0;
+  display: inline-flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.portfolio-filter li {
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: var(--text_color);
+  transition: color 0.3s;
+  position: relative;
+}
+
+.portfolio-filter li.active,
+.portfolio-filter li:hover {
+  color: var(--secondary_color);
+  font-weight: 600;
+}
+
+/* ---------- Masonry Grid (react-masonry-css) ---------- */
+.my-masonry-grid {
+  display: flex;
+  margin-left: -20px; 
+  padding: 60px 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: auto;
+}
+
+.my-masonry-grid_column {
+  padding-left: 20px; 
+  background-clip: padding-box;
+}
+
+.my-masonry-grid_column > .portfolio-card {
+  margin-bottom: 20px;
+}
+
+.portfolio-card {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: transform 0.3s;
+  display: block;
+  background: #fff;
+}
+
+.portfolio-card:hover {
+  transform: translateY(-5px);
+}
+
+.portfolio-card img {
+  width: 100%;
+  height: auto; 
+  display: block;
+  object-fit: cover;
+}
+
+.portfolio-card::after {
+  content: attr(data-title);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.3s;
+  text-align: center;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.portfolio-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 1;
+}
+
+.portfolio-card:hover::before,
+.portfolio-card:hover::after {
+  opacity: 1;
+}
+
+@media (max-width: 992px) {
+  .masonry-layout-page .intro {
+    padding: 60px 40px;
+  }
+}
+
+@media (max-width: 600px) {
+  .masonry-layout-page .intro {
+    padding: 40px 20px;
+  }
+  .portfolio-filter ul {
+    gap: 12px;
+  }
+}
